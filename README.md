@@ -1,81 +1,87 @@
-# Sukuk | Real Estate Investment Management System
+# Sukuk Platform | Enterprise Real Estate Asset Management
 
-![Laravel](https://img.shields.io/badge/Backend-Laravel-FF2D20?style=for-the-badge&logo=laravel)
-![PHP](https://img.shields.io/badge/Core-PHP_8.2-777BB4?style=for-the-badge&logo=php)
-![Tailwind](https://img.shields.io/badge/Frontend-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css)
-![MySQL](https://img.shields.io/badge/Database-MySQL-4479A1?style=for-the-badge&logo=mysql)
-![Security](https://img.shields.io/badge/Security-RBAC_&_Middleware-forestgreen?style=for-the-badge)
+<div align="center">
+  <img src="images/logo.png" alt="Sukuk Logo" width="150"/>
+  <br>
+  
+  ![Laravel](https://img.shields.io/badge/Backend-Laravel_10-FF2D20?style=for-the-badge&logo=laravel)
+  ![PHP](https://img.shields.io/badge/Language-PHP_8.2-777BB4?style=for-the-badge&logo=php)
+  ![SQL Server](https://img.shields.io/badge/Database-SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server)
+  ![Google Maps](https://img.shields.io/badge/API-Google_Maps-4285F4?style=for-the-badge&logo=google-maps)
+  ![Security](https://img.shields.io/badge/Security-Dynamic_RBAC-forestgreen?style=for-the-badge&logo=security-scorecard)
+</div>
 
 > **⚠️ Proprietary Software Notice:**
-> This repository serves as a **technical showcase** and architectural overview of the "Sukuk" project developed for **Rikaz Advanced**.
-> Due to Non-Disclosure Agreements (NDA) and commercial property rights, the source code is stored in a private repository.
->
-> **Access to the source code can be granted to recruiters and technical interviewers upon request.**
-> [Request Access](mailto:abdalrhman.hamed@example.com) ---
-
-## 📖 Project Overview
-**Sukuk** is a comprehensive financial technology (FinTech) platform designed to manage real estate investment instruments (Sukuk). The system bridges the gap between investors and real estate opportunities, providing a secure environment for data management, subscription workflows, and portfolio tracking.
-
-### 🏗️ High-Level Architecture
-The system utilizes a **Monolithic Architecture** optimized for modularity using Laravel's component-based structure. It follows the **MVC (Model-View-Controller)** pattern, enhanced with **Service Layers** to handle complex business logic (subscriptions, approvals, and notifications) separately from controllers.
+> This project was developed for **Rikaz Advanced**. The repository serves as a **Technical Showcase** of the architecture and development patterns used.
+> **Source code is confidential** and available for technical review upon request by authorized recruiters.
 
 ---
 
-## 🔧 Technical Stack & Key Features
+## 🏗️ System Architecture & Engineering
+Sukuk is not just a CRUD application; it is a complex **SaaS-ready platform** designed to manage high-value real estate assets. The system is built on a **Modular Monolith** architecture to ensure scalability and maintainability.
 
-### 1. Advanced Role-Based Access Control (RBAC) 🛡️
-Instead of using simple packages, I implemented a custom, highly granular permission system to handle sensitive financial data.
-* **Implementation:** Utilized Laravel **Middleware** and **Gates/Policies**.
-* **Workflow:**
-    * `Admin`: Full system control & approval authority.
-    * `Investor`: Access to personal portfolio and subscription requests.
-    * `Manager`: Data oversight without modification rights.
-* **Security:** Routes are protected via strict Middleware groups `['auth', 'role:admin']`.
+### 1. Dynamic Role-Based Access Control (RBAC) 🛡️
+Unlike standard permission packages, I engineered a **Custom Dynamic Permission Engine**.
+* **Concept:** Permissions are not just hardcoded; they are stored as `System Modules` (Entities) and `Actions` (Create, Edit, Approve, Export).
+* **Implementation:** * Created `SystemModuleController` to dynamically manage system capabilities.
+    * Implemented strict Middleware: `middleware('permission:module_name,action')`.
+    * **Example:** A route like `Route::post('/approve')` is guarded by `permission:users,approve`, ensuring only specific roles can trigger critical business logic.
 
-### 2. Database Design & Eloquent ORM 🗄️
-Designed a normalized relational database schema to ensure data integrity for financial records.
-* **Complex Relationships:** Heavily utilized `Polymorphic Relations` and `Many-to-Many` relationships between *Users*, *Sukuk Portfolios*, and *Transactions*.
-* **Optimization:** Implemented **Eager Loading** (`with()`) throughout the application to eliminate the **N+1 Query Problem**, ensuring fast response times even with large datasets.
-* **Data Integrity:** Used **Database Transactions** (`DB::transaction`) to ensure that investment subscriptions and balance updates are atomic (all-or-nothing).
+### 2. User Subscription Lifecycle (State Machine) 🔄
+The system handles complex user statuses beyond simple Login/Logout. I implemented a strict **Subscription Workflow**:
+* **Flow:** `Guest` → `Registration` → `Pending (Review)` → `Approved` → `Active` (or `Rejected`/`Suspended`).
+* **Security:** Using `CheckUserStatus` Middleware to intercept requests from users with expired or suspended subscriptions instantly.
+* **Logic:** Dedicated controllers (`approve`, `renew`, `reject`) to handle the business rules for each state transition.
 
-### 3. Interactive UI & API Integration 🌐
-* **Google Maps API:** Integrated interactive maps for real estate location visualization using JavaScript API.
-* **AJAX & Dynamic Content:** Built seamless forms and dynamic dashboards using **AJAX** to update investment statuses without page reloads, enhancing User Experience (UX).
-* **Tailwind CSS:** Utilized for a responsive, mobile-first design that matches Rikaz's branding guidelines.
+### 3. Advanced Integrations & Localization 🌍
+* **Google Maps API:** Deep integration for visualizing asset locations with custom markers based on `Sukuk Type`.
+* **Multi-Tenancy Preparation:** The database is designed with "Databank" modules (Countries, Provinces, Cities) to support international data scalability.
+* **Localization:** Full Arabic/English support using Middleware-based Locale switching (`session()->put('locale', $lang)`), ensuring all responses and UI elements are translated dynamically.
 
-### 4. Code Quality & Scalability 🚀
-* **Modular Code:** Logic is encapsulated in **Traits** and **Services** to keep Controllers "skinny."
-* **Input Validation:** Robust server-side validation using **Form Request Classes** to sanitize all user inputs and prevent SQL Injection/XSS.
-* **Migrations & Seeding:** Full database version control using Migrations, with Factories/Seeders for testing environments.
+### 4. Enterprise Database Design (SQL Server) 🗄️
+* Leveraged **Microsoft SQL Server** for robust data handling suitable for financial records.
+* **Complex Relationships:** Designed a normalized schema handling `Evaluations`, `Authorities`, and `Portfolios` with strict foreign key constraints.
+* **Data Integrity:** Used Transactions for critical operations like Subscription Renewal and Asset Transfer.
 
 ---
 
-## 📸 System Gallery (Showcase)
+## 💻 Technical Stack Overview
 
-| **Dashboard Overview** | **User Management (RBAC)** |
+| Category | Technology | Usage |
+| :--- | :--- | :--- |
+| **Backend Framework** | **Laravel 10** | Core Logic, Service Container, Eloquent ORM. |
+| **Database** | **MS SQL Server** | Enterprise-grade data storage. |
+| **Frontend** | **Tailwind CSS & AJAX** | Responsive UI and Asynchronous data loading. |
+| **APIs** | **Google Maps API** | Asset Geolocation & Markers. |
+| **Security** | **Custom Middleware** | Route Protection, XSS Filtering, Input Sanitization. |
+
+---
+
+## 📸 System Previews (Gallery)
+
+| **Interactive Map & Markers** | **Dynamic Dashboard** |
 |:---:|:---:|
-| <img src="images/dashboard.png" width="400" alt="Dashboard"> | <img src="images/users.png" width="400" alt="User Management"> |
-| *Dynamic charts tracking investments* | *Admin panel for role assignment* |
+| <img src="images/maps.png" width="400" alt="Google Maps Integration"> | <img src="images/dashboard.png" width="400" alt="Admin Dashboard"> |
+| *Filtering Assets via Google Maps API* | *Real-time statistics based on User Role* |
 
-| **Google Maps Integration** | **Investment Workflow** |
+| **Subscription Workflow** | **Evaluation System** |
 |:---:|:---:|
-| <img src="images/maps.png" width="400" alt="Maps"> | <img src="images/workflow.png" width="400" alt="Workflow"> |
-| *Real-time location picking* | *Approval process flow* |
-
-*(Note: These screenshots represent the revamped V2 architecture).*
+| <img src="images/users.png" width="400" alt="User Management"> | <img src="images/eval.png" width="400" alt="Evaluations"> |
+| *Admin panel for approving/rejecting users* | *Asset evaluation reports* |
 
 ---
 
-## 🚀 Live Demo Disclaimer
-There is a deployed version available at `sukuk.innowizard.com`.
-> **Note:** The live deployment may reflect an earlier version (v1). The architectural improvements and code quality described in this document reflect the **v2 codebase** (current private repository).
+## 🚀 Key Achievements
+* **Secure API Design:** Built internal APIs for `SearchResultController` to handle property searching with complex filters securely.
+* **Code Reusability:** Used **Traits** and **Service Classes** to handle the `Import/Export` logic across different modules (Sukuk, Evaluations).
+* **Performance:** Optimized SQL queries using Eager Loading to handle large datasets of "Provinces" and "Cities" without latency.
 
 ---
 
-## 📬 Contact & Access
-To discuss the technical implementation or request a code walkthrough:
+## 📬 Request Access
+To view the underlying code structure or discuss the implementation details:
 
 * **Abdalrhman Hamed**
 * **Role:** Backend Software Engineer
-* **Email:** [Your Email Here]
-* **LinkedIn:** [Your Profile Link Here]
+* **LinkedIn:** [Your Profile Link]
+* **Email:** [Your Email]
