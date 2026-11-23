@@ -1,100 +1,210 @@
-# Sukuk Platform | Enterprise Real Estate Asset Management
+# 🏢 Sukuk — Real Estate Asset Management Platform
 
-<div align="center">
-  <img src="images/logo.png" alt="Sukuk Logo" width="150"/>
-  <br>
-  
-  ![Laravel](https://img.shields.io/badge/Backend-Laravel_10-FF2D20?style=for-the-badge&logo=laravel)
-  ![PHP](https://img.shields.io/badge/Language-PHP_8.2-777BB4?style=for-the-badge&logo=php)
-  ![SQL Server](https://img.shields.io/badge/Database-SQL_Server-CC2927?style=for-the-badge&logo=microsoft-sql-server)
-  ![Google Maps](https://img.shields.io/badge/API-Google_Maps-4285F4?style=for-the-badge&logo=google-maps)
-  ![Security](https://img.shields.io/badge/Security-Dynamic_RBAC-forestgreen?style=for-the-badge&logo=security-scorecard)
-</div>
+### Technical Project Showcase
 
-> **⚠️ Proprietary Software Notice:**
-> This project was developed for **Rikaz Advanced**. The repository serves as a **Technical Showcase** of the architecture and development patterns used.
-> **Source code is confidential** and available for technical review upon request by authorized recruiters.
+**PHP · Laravel · Microsoft SQL Server · Tailwind CSS · Livewire · JavaScript · Google Maps API**
 
 ---
 
-## 🏗️ System Architecture & Engineering
-Sukuk is not just a CRUD application; it is a complex **SaaS-ready platform** designed to manage high-value real estate assets. The system is built on a **Modular Monolith** architecture to ensure scalability and maintainability.
+## Overview
 
-### 1. Dynamic Role-Based Access Control (RBAC) 🛡️
-Unlike standard permission packages, I engineered a **Custom Dynamic Permission Engine**.
-* **Concept:** Permissions are not just hardcoded; they are stored as `System Modules` (Entities) and `Actions` (Create, Edit, Approve, Export).
-* **Implementation:** * Created `SystemModuleController` to dynamically manage system capabilities.
-    * Implemented strict Middleware: `middleware('permission:module_name,action')`.
-    * **Example:** A route like `Route::post('/approve')` is guarded by `permission:users,approve`, ensuring only specific roles can trigger critical business logic.
+**Sukuk** is a web-based real estate asset management platform developed for **Rikaz Advanced**, a Saudi-based company.
 
-### 2. User Subscription Lifecycle (State Machine) 🔄
-The system handles complex user statuses beyond simple Login/Logout. I implemented a strict **Subscription Workflow**:
-* **Flow:** `Guest` → `Registration` → `Pending (Review)` → `Approved` → `Active` (or `Rejected`/`Suspended`).
-* **Security:** Using `CheckUserStatus` Middleware to intercept requests from users with expired or suspended subscriptions instantly.
-* **Logic:** Dedicated controllers (`approve`, `renew`, `reject`) to handle the business rules for each state transition.
+The platform provides a centralized system for managing real estate assets, geographical information, classifications, evaluations, and administrative operations.
 
-### 3. Advanced Integrations & Localization 🌍
-* **Google Maps API:** Deep integration for visualizing asset locations with custom markers based on `Sukuk Type`.
-* **Multi-Tenancy Preparation:** The database is designed with "Databank" modules (Countries, Provinces, Cities) to support international data scalability.
-* **Localization:** Full Arabic/English support using Middleware-based Locale switching (`session()->put('locale', $lang)`), ensuring all responses and UI elements are translated dynamically.
+It brings together database-driven business processes, role-based access control, interactive maps, and a responsive administrative interface.
 
-### 4. Enterprise Database Design (SQL Server) 🗄️
-* Leveraged **Microsoft SQL Server** for robust data handling suitable for financial records.
-* **Complex Relationships:** Designed a normalized schema handling `Evaluations`, `Authorities`, and `Portfolios` with strict foreign key constraints.
-* **Data Integrity:** Used Transactions for critical operations like Subscription Renewal and Asset Transfer.
+> **Project Notice:** Sukuk was developed as part of a professional project engagement with Rikaz Advanced. This repository is intended to showcase selected technical aspects of my contributions. The production source code and confidential implementation details are not included.
 
 ---
 
-## 💻 Technical Stack Overview
+## My Role
 
-| Category | Technology | Usage |
-| :--- | :--- | :--- |
-| **Backend Framework** | **Laravel 10** | Core Logic, Service Container, Eloquent ORM. |
-| **Database** | **MS SQL Server** | Enterprise-grade data storage. |
-| **Frontend** | **Tailwind CSS & AJAX** | Responsive UI and Asynchronous data loading. |
-| **APIs** | **Google Maps API** | Asset Geolocation & Markers. |
-| **Security** | **Custom Middleware** | Route Protection, XSS Filtering, Input Sanitization. |
+**Full-Stack Developer — Remote, Project-Based**
 
----
+I worked on the development of Sukuk using Laravel, PHP, Microsoft SQL Server, and frontend technologies, collaborating with a senior software engineer throughout the project.
 
-## 📸 System Previews (Gallery)
+My contributions included:
 
-| **Interactive Map & Markers** | **Dynamic Dashboard** |
-|:---:|:---:|
-| <img src="images/maps.png" width="400" alt="Google Maps Integration"> | <img src="images/dashboard.png" width="400" alt="Admin Dashboard"> |
-| *Filtering Assets via Google Maps API* | *Real-time statistics based on User Role* |
-
-| **Subscription Workflow** | **Evaluation System** |
-|:---:|:---:|
-| <img src="images/users.png" width="400" alt="User Management"> | <img src="images/eval.png" width="400" alt="Evaluations"> |
-| *Admin panel for approving/rejecting users* | *Asset evaluation reports* |
+- Developing backend functionality and business logic using Laravel and PHP.
+- Implementing database operations and relationships using Eloquent ORM.
+- Building and maintaining administrative modules and CRUD functionality.
+- Working on role-based access control and user management.
+- Developing features for real estate assets, classifications, and evaluations.
+- Integrating Google Maps for displaying and managing geographical asset information.
+- Building responsive interfaces using Tailwind CSS, JavaScript, and AJAX.
+- Developing interactive functionality using Laravel Livewire.
+- Supporting Arabic and English localization.
+- Debugging, testing, and improving existing application functionality.
 
 ---
 
-## 🗄️ Database Architecture (Preview)
-To ensure data integrity and complex relation handling, I designed a **Normalized Relational Schema**. The diagram below highlights the core relationships between *Users*, *Investment Portfolios*, and *Sukuk Assets*....
+## Key Features
 
-<div align="center">
-  <img src="images/erd.png" alt="Database ER Diagram" width="800"/>
-</div>
+### Real Estate Asset Management
 
-**Key Design Highlights:**
-* **Polymorphic Relations:** Used for handling attachments and media across different entities without table duplication.
-* **Many-to-Many:** implemented for `Users <-> Roles` and `Investors <-> Sukuk` assignments.
-* **Foreign Key Constraints:** Strict constraint enforcement to prevent orphaned records in financial transactions.
+The platform supports the organization and management of real estate asset information through a centralized administrative interface.
+
+Functionality includes asset records, classifications, geographical information, and related evaluations.
+
+### Evaluation Management
+
+The evaluation module supports managing asset evaluations and their associated authorities.
+
+It includes functionality for creating, updating, viewing, and managing evaluation records.
+
+### Geographical Data Management
+
+The system organizes location information through related geographical entities, including:
+
+- Countries
+- Provinces
+- Cities
+
+These relationships support structured location selection and consistent geographical data management.
+
+### Google Maps Integration
+
+Google Maps is integrated into the platform to support geographical visualization and interaction with real estate asset locations.
+
+### Role-Based Access Control
+
+The platform includes administrative functionality for managing users, roles, and access permissions.
+
+Authorization controls help restrict access to different system modules and operations based on assigned privileges.
+
+### Multilingual Interface
+
+The application supports both Arabic and English, allowing users to interact with the platform in their preferred language.
 
 ---
-## 🚀 Key Achievements
-* **Secure API Design:** Built internal APIs for `SearchResultController` to handle property searching with complex filters securely.
-* **Code Reusability:** Used **Traits** and **Service Classes** to handle the `Import/Export` logic across different modules (Sukuk, Evaluations).
-* **Performance:** Optimized SQL queries using Eager Loading to handle large datasets of "Provinces" and "Cities" without latency.
+
+## Technical Overview
+
+The application is built using Laravel with Microsoft SQL Server as its relational database.
+
+Laravel handles the application logic, database interactions, authentication, authorization, and administrative functionality.
+
+The user interface combines server-rendered views with interactive components and asynchronous requests.
+
+### Backend Development
+
+Key technologies and concepts:
+
+- PHP and Laravel
+- MVC Architecture
+- Eloquent ORM
+- Relational Database Design
+- Authentication and Authorization
+- Role-Based Access Control
+- Request Validation
+- Business Logic Implementation
+
+### Database Development
+
+Microsoft SQL Server is used to manage the application's relational data.
+
+My work involved handling relationships and database operations across interconnected entities such as assets, locations, categories, evaluations, and evaluation authorities.
+
+### Frontend Development
+
+The interface uses:
+
+- HTML and CSS
+- Tailwind CSS
+- JavaScript
+- AJAX
+- Laravel Livewire
+- Blade Templates
+
+These technologies support responsive layouts, interactive forms, dynamic data loading, and administrative workflows.
 
 ---
 
-## 📬 Request Access
-To view the underlying code structure or discuss the implementation details:
+## Technology Stack
 
-* **Abdalrhman Hamed**
-* **Role:** Backend Software Engineer
-* **LinkedIn:** [www.linkedin.com/in/abdalrhman-hamed-5b929725b]
-* **Email:** [mailto:omarabdalrhman53@gmail.com]
+| Category | Technologies |
+|---|---|
+| Backend | PHP, Laravel |
+| Database | Microsoft SQL Server |
+| ORM | Eloquent |
+| Frontend | Blade, HTML, CSS, Tailwind CSS |
+| Interactivity | JavaScript, AJAX, Livewire |
+| Maps | Google Maps API |
+| Security | Authentication, RBAC, Middleware |
+| Localization | Arabic and English |
+
+---
+
+## Project Screenshots
+
+Selected screenshots demonstrate the application's interface and functionality.
+
+*Only screenshots approved for public sharing should be included.*
+
+### Interactive Maps
+
+![Google Maps Integration](images/maps.png)
+
+### Administrative Dashboard
+
+![Sukuk Dashboard](images/dashboard.png)
+
+### User Management
+
+![User Management](images/users.png)
+
+### Evaluation Management
+
+![Evaluation Management](images/eval.png)
+
+---
+
+## Engineering Experience
+
+Working on Sukuk provided practical experience in developing and maintaining a business application with interconnected modules and data.
+
+Some of the key engineering areas involved:
+
+**Relational Data Management**
+
+Working with interconnected entities and maintaining consistent relationships across the application.
+
+**Authorization**
+
+Implementing and maintaining access restrictions for administrative functionality.
+
+**Interactive Application Features**
+
+Combining Laravel, Livewire, and JavaScript to build user-facing administrative features.
+
+**External API Integration**
+
+Integrating Google Maps into the application's geographical functionality.
+
+**Application Maintenance**
+
+Working within an existing codebase, debugging issues, extending functionality, and collaborating with another engineer.
+
+---
+
+## Professional Experience
+
+**Company:** Rikaz Advanced  
+**Role:** Full-Stack Developer  
+**Engagement:** Remote, Project-Based  
+**Project:** Sukuk — Real Estate Asset Management Platform
+
+This project represents part of my professional software development experience, particularly in Laravel, PHP, SQL Server, backend development, and full-stack application engineering.
+
+---
+
+## Contact
+
+**Abdalrhman Hamed**
+
+[LinkedIn](https://www.linkedin.com/in/abdalrhman-hamed-5b929725b) · [GitHub](https://github.com/abood3omar)
+
+---
+
+*This repository is a professional portfolio showcase. It does not contain the proprietary source code, internal database structure, confidential records, or private infrastructure details of Rikaz Advanced.*
