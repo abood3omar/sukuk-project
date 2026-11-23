@@ -2,7 +2,7 @@
 
 ### Technical Project Showcase
 
-**PHP · Laravel · Microsoft SQL Server · Tailwind CSS · Livewire · JavaScript · Google Maps API**
+**PHP · Laravel · Microsoft SQL Server · Tailwind CSS · Livewire · JavaScript · Google Maps API** 
 
 ---
 
